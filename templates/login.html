@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container" style="max-width: 1000px; margin: 0 auto; padding: 100px;">
+    <section id="logowanie">
+        <div class="button-change" style=" margin-bottom: 20px;">
+            <button 
+            @click="toggleForm" 
+            class="fas fa-exchange-alt change-icon button-transform"
+            :class="{'active-button': isLogin}"
+            >
+        </button>
+        </div>
+        <!-- Sekcja Logowania -->
+        <div v-if="isLogin">
+            <h3>Logowanie:</h3>
+            <form action="{{ url_for('auth.login') }}" method="post">
+                <div class="row gtr-uniform gtr-50">
+                    <div class="col-6 col-12-xsmall">
+                        <input type="text" name="username" placeholder="Login" required />
+                    </div>
+                    <div class="col-6" style="text-align: right;">
+                        <input :type="changePasswordType" name="password" placeholder="Hasło" required />
+                        <button type="button" @click="togglePasswordVisibility('login')" class="toggle-password">
+                            <i :class="changePasswordType === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <input type="submit" value="Zaloguj się"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sekcja Rejestracji -->
+        <div v-else>
+            <h3>Rejestracja:</h3>
+            <form action="{{ url_for('auth.register') }}" method="post">
+                <div class="row gtr-uniform gtr-50">
+                    <div class="col-6 col-12-xsmall">
+                        <input type="text" name="username" placeholder="Login" required />
+                    </div>
+                    <div class="col-6 col-12-xsmall">
+                        <input :type="changePasswordType" name="password" placeholder="Hasło" required />
+                    </div>
+                    <div class="col-6 col-12-xsmall">
+                        <input :type="changePasswordType" name="confirm_password" placeholder="Potwierdź hasło" required />
+                    </div>
+                    <!-- Przyciski podglądu hasła -->
+                    <div class="col-12" style="text-align: right;">
+                        <button type="button" @click="togglePasswordVisibility" class="toggle-password">
+                            <i :class="registerPasswordType === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <ul class="actions">
+                            <li><input type="submit" value="Zarejestruj się"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+<script type="text/javascript" src="{{url_for('static', filename='logowanie.js')}}"></script>
+    {% endblock %}

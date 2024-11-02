@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Witaj, {{ session['user_login'] }}!</h1>
+<form action="{{ url_for('auth.logout') }}" method="post">
+    <button type="submit">Wyloguj się</button>
+</form>
+{% endblock %}

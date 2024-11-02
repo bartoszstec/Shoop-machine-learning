@@ -1,0 +1,12 @@
+# Ignorowanie katalogów __pycache__ i venv
+__pycache__/
+venv/
+
+# Plik konfiguracyjny środowiska
+.env
+
+# Plik bazy danych SQLite
+db.sqlite
+
+# Pliki kompilowane Pythona
+*.pyc

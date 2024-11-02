@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+		{% block content %}
+			<!-- sekcja kategorii -->
+			<section id="kategorie" class="main style1 special">
+				<div class="container">
+
+					<div>
+						<form id="search-form">
+							<input type="search" id="search-input" placeholder="Szukaj produktów">
+							<button type="submit">Szukaj</button>
+						</form>
+						
+						<div id="search-results"></div>
+					</div>
+
+					<header class="major">
+						<h2>Kategorie</h2>
+						<h1>{ message }</h1>
+					</header>
+					<div class="row gtr-150">
+						<div class="col-4 col-12-medium" v-for="kategoria, index in kategorie" :key="index"
+						@mouseenter="hoverCategory(index)" 
+						@mouseleave="leaveCategory(index)" 
+						:class="{ 'hovered': isHovered[index] }">
+						<a :href="kategoria.url">
+							<span class="image fit"><img :src="'../static/images/kategorie/' + kategoria.nazwa + '.jpg'" alt="" class="category-picture"/></span>
+							<h3>{ kategoria.nazwa}</h3>
+						</a>
+						</div>
+				</div>
+			</section>
+
+			<script type="text/javascript" src="{{url_for('static', filename='kategorie.js')}}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='search.js')}}"></script>
+			{% endblock %}

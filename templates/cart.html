@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="koszyk" class="main style1 special">
+    <div class="container">
+        <header class="major">
+            <h2>Twój koszyk</h2>
+        </header>
+
+        <!-- Lista produktów w koszyku -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Ilość</th>
+                    <th>Cena</th>
+                    <th>Usuń</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_id, item in cart.items() %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price * item.quantity }} zł</td>
+                        <td>
+                            <button onclick="removeFromCart('{{ product_id }}')">Usuń</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Podsumowanie -->
+        <div>
+            <h3>Całkowita cena: {{ total_price }} zł</h3>
+        </div>
+
+        <!-- Dalsze kroki (np. realizacja zamówienia) -->
+        <div>
+            <button onclick="window.location.href='/'">Kontynuuj zakupy</button>
+            <button onclick="clearCart()">Wyczyść koszyk</button>
+        </div>
+    </div>
+</section>
+
+<!-- Skrypty do zarządzania koszykiem -->
+<script>
+function removeFromCart(productId) {
+    fetch('/cart/remove_from_cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({ 'product_id': productId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Odśwież stronę po usunięciu produktu
+        location.reload();
+    })
+    .catch(error => console.error('Błąd:', error));
+}
+
+function clearCart() {
+    fetch('/cart/clear_cart')
+    .then(response => response.json())
+    .then(data => {
+        // Odśwież stronę po wyczyszczeniu koszyka
+        location.reload();
+    })
+    .catch(error => console.error('Błąd:', error));
+}
+</script>
+{% endblock %}

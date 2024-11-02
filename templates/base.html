@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<title>Sklep</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{{url_for('static', filename='/assets/css/main.css')}}" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+		
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>  <!-- vue CDN -->
+	</head>
+	
+	<body>
+		<!-- Header -->
+			<section id="header">
+				<div class="inner">
+					<div class="logo">
+						<a href="{{ url_for('index') }}">
+							<img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" />
+						</a>
+					</div>
+					
+
+					<nav>
+						<ul>
+						{% if session.get('user_role')=="admin" %}
+						<li><a href="{{ url_for('auth.adminpage') }}">ADMIN PAGE</a></li>
+						{% endif %}
+
+						<li>
+							<a href="{{ url_for('cart.view_cart') }}" class="cart-icon">
+								<i class="fas fa-shopping-cart"></i>
+								<span id="cart-count" class="cart-count">
+									{% if session['cart'] %}
+										{{ session['cart'].values() | map(attribute='quantity') | sum }}
+									{% endif %}
+								</span>
+							</a>
+						</li>
+							<li><a href="#footer">Kontakt</a></li>
+							<li><a href="#footer">O nas</a></li>
+							<li><a href="#bestsellers">Bestsellery</a></li>
+							<li><a href="#deals">Okazje</a></li>
+							<!-- Sprawdzenie, czy użytkownik jest zalogowany -->
+						{% if session.get('user_login') %}
+							<li>Zalogowano jako: {{ session['user_login'] }}</li>
+							<!-- Elementy widoczne tylko dla zalogowanych użytkowników -->
+							<li><a href="{{ url_for('auth.logout') }}">Wyloguj się</a></li>
+							</li>
+						{% else %}
+							<li><a href="{{ url_for('auth.login') }}">Logowanie</a></li>
+						{% endif %}
+						</ul>
+					</nav>
+				</div>
+			</section>
+			<!-- Komunikaty -->
+			 <div class="komunikaty">
+				{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					<ul class="flashes">
+						{% for category, message in messages %}
+							<li class="{{ category }}">{{ message }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+				{% endwith %}
+			</div>
+
+		{% block content %}
+		{% endblock %}
+
+		<!-- Footer -->
+		<section id="footer">
+			<ul class="icons">
+				<li><a href="https://x.com" class="icon brands alt fa-x-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="https://www.facebook.com" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+				<li><a href="https://www.instagram.com" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+				<li><a href="https://github.com/wrzoskiewicz" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+			</ul>
+			<ul class="copyright">
+				<li>&copy; Shoop.</li>
+				<li id="current-date"></li>
+				<li>Design: Bartosz Stec</li>
+			</ul>
+		</section>
+		<script>
+			// Pobierz aktualną datę
+			const currentDate = new Date();
+			const formattedDate = currentDate.toLocaleDateString('pl-PL', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			});
+			
+			// Wyświetl datę w stopce
+			document.getElementById('current-date').textContent = formattedDate;
+		</script>
+	</body>
+</html>

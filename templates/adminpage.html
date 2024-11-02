@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="admin-page">
+<h2>Strona admina</h2>
+
+<!-- Przyciski do przełączania widoczności sekcji -->
+<div class="admin-buttons">
+    <button onclick="showSection('users-section')">Użytkownicy</button>
+    <button onclick="showSection('products-section')">Produkty</button>
+</div>
+
+<!-- Sekcja zarządzania użytkownikami -->
+<div id="users-section" style="display:none;">
+    <h3>Zarządzanie użytkownikami</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Login</th>
+                <th>Rola</th>
+                <th>Data utworzenia konta</th>
+                <th>Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.login }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>
+                    <!-- Formularz do zmiany roli użytkownika -->
+                    <form action="{{ url_for('auth.change_role', user_id=user.id) }}" method="post" style="display:inline;">
+                        <select name="new_role">
+                            <option value="user" {% if user.role == "user" %}selected{% endif %}>User</option>
+                            <option value="admin" {% if user.role == "admin" %}selected{% endif %}>Admin</option>
+                        </select>
+                        <button type="submit">Zmień rolę</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Sekcja produktów -->
+<div id="products-section" style="display:none;">
+    <h2>Tabela produktów</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nazwa</th>
+                <th>Kategoria</th>
+                <th>Opis</th>
+                <th>Ilość</th>
+                <th>Cena</th>
+                <th>URL</th>
+                <th>data dodania</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category }}</td>
+                <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ product.description }}</td>
+                <td>{{ product.quantity}}</td>
+                <td>{{ product.price}}</td>
+                <td>{{ product.image_url}}</td>
+                <td>{{ product.date_added.strftime('%Y-%m-%d %H:%M')}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    <h2>Dodaj nowy produkt</h2>
+    <form action="{{ url_for('auth.add_product') }}" method="post">
+        <label for="name">Nazwa:</label>
+        <input type="text" name="name" required>
+
+        <label for="category">Kategoria:</label>
+        <select name="category" required>
+            <option value="AGD">AGD</option>
+            <option value="RTV">RTV</option>
+            <option value="Telefony">Telefony</option>
+            <option value="Odzież">Odzież</option>
+            <option value="Sport">Sport</option>
+            <option value="Zegarki i biżuteria">Zegarki i biżuteria</option>
+        </select>
+
+        <label for="description">Opis:</label>
+        <textarea name="description"></textarea>
+
+        <label for="quantity">Ilość sztuk:</label>
+        <input type="number" name="quantity" required min="0">
+
+        <label for="price">Cena:</label>
+        <input type="number" name="price" step="0.01" required>
+
+        <label for="image_url">URL obrazka (opcjonalnie):</label>
+        <input type="text" name="image_url">
+
+        <button type="submit">Dodaj produkt</button>
+    </form>
+</div>
+</div>
+
+<script>
+    // Funkcja przełączająca widoczność sekcji
+    function showSection(sectionId) {
+        // Ukryj wszystkie sekcje
+        document.getElementById('users-section').style.display = 'none';
+        document.getElementById('products-section').style.display = 'none';
+
+        // Pokaż wybraną sekcję
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    // Sprawdź hash w URL po załadowaniu strony
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.location.hash === '#products-section') {
+            showSection('products-section');
+        } else {
+            showSection('users-section');
+        }
+    });
+</script>
+{% endblock %}
