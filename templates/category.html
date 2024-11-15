@@ -43,7 +43,15 @@ function addToCart(productId, productName, productPrice) {
         },
         body: formData.toString()
     })
-    .then(response => response.json())
+    .then(response => {
+        if (response.status === 401) {
+            // Jeśli użytkownik nie jest zalogowany, przekieruj na stronę logowania
+            window.location.href = '/auth/login';
+        } else {
+            // Jeśli odpowiedź jest prawidłowa, parsuj JSON
+            return response.json();
+        }
+    })
     .then(cart => {
         // Update the total count of items in the cart
         updateCartCount(cart);

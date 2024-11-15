@@ -4,10 +4,7 @@ cart = Blueprint('cart', __name__)
 
 @cart.route('/view_cart')
 def view_cart():
-    if 'user_id' not in session:
-        flash('Musisz być zalogowany, aby zobaczyć tę stronę. Nie masz konta? Utwórz je klikając przycisk poniżej', "info")
-        return redirect(url_for('auth.login'))
-    
+
     cart = session.get('cart', {})
     # Przelicz całkowitą cenę
     total_price = sum(item['price'] * item['quantity'] for item in cart.values())
@@ -16,9 +13,14 @@ def view_cart():
 
 @cart.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
+    
     product_id = request.form.get('product_id')
     product_name = request.form.get('product_name')
     product_price = float(request.form.get('product_price'))
+
+    if 'user_id' not in session:
+        flash('Musisz być zalogowany, aby zobaczyć tę stronę. Nie masz konta? Utwórz je klikając przycisk poniżej', "info")
+        return jsonify({}), 401 #pusty json z kodem 401(brak autoryzacji)
 
     if 'cart' not in session:
         session['cart'] = {}
