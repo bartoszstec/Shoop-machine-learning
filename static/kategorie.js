@@ -11,7 +11,8 @@ const CategoryApp = {
                 {nazwa:"Sport", url:"/kategorie/Sport"},
                 {nazwa:"Zegarki i biżuteria", url:"/kategorie/Zegarki%20i%20bi%C5%BCuteria"} // Użyj kodowania URL dla spacji i specjalnych znaków
             ],
-            isHovered: [false, false, false, false, false, false] // Zmienna śledząca stan najechania na każdy kafelek
+            isHovered: [false, false, false, false, false, false], // Zmienna śledząca stan najechania na każdy kafelek
+            message: ''// Zdefiniowanie message, aby uniknąć błędu
         }
     },
     methods: {
