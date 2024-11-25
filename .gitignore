@@ -6,7 +6,7 @@ venv/
 .env
 
 # Plik bazy danych SQLite
-db.sqlite
+*.sql
 
 # Pliki kompilowane Pythona
 *.pyc

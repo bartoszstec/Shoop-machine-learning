@@ -5,6 +5,7 @@ from models.product import Product
 from auth.auth import auth
 from cart.cart import cart
 from sqlalchemy import or_
+from flask_sqlalchemy import SQLAlchemy
 
 # Inicjalizacja aplikacji Flask i załadowanie pliku konfiguracyjnego
 app = Flask(__name__)
