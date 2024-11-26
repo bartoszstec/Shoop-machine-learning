@@ -3328,3 +3328,91 @@ input, select, textarea {
 					margin-left: 0;
 					padding: 0;
 				}
+/* Media Queries */
+
+/* Styl dla ekranów max. 768px (tablety i małe laptopy) */
+@media screen and (max-width: 768px) {
+	#header nav ul {
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+	}
+
+	#header nav ul li a {
+		width: 100%;
+		text-align: center;
+		padding: 0.8em;
+	}
+
+	#header .logo {
+		padding-left: 0;
+		margin-bottom: 1em;
+	}
+
+	.category-picture {
+		height: 300px;
+	}
+
+	.button-change {
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+/* Styl dla ekranów max. 480px (telefony w pionie) */
+@media screen and (max-width: 480px) {
+	#header nav ul {
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+	}
+
+	#header nav ul li a {
+		font-size: 14px;
+		padding: 0.5em;
+	}
+
+	#header .logo img {
+		max-width: 100px;
+	}
+
+	.category-picture {
+		height: 200px;
+	}
+
+	.button-transform {
+		font-size: 14px;
+		padding: 8px 16px;
+	}
+
+	.komunikaty {
+		flex-direction: column;
+		padding: 10px;
+		margin-top: 10px;
+	}
+}
+
+@media screen and (max-width: 1431px) {
+    #header nav ul {
+        justify-content: flex-start; /* Dopasowuje nawigację do lewej */
+        flex-wrap: wrap; /* Pozwala elementom przechodzić do następnego wiersza */
+        gap: 15px; /* Zmniejszony odstęp między elementami */
+    }
+
+    #header nav ul li {
+        margin-bottom: 5px; /* Dodaj trochę miejsca między wierszami */
+    }
+
+    #header nav ul li a {
+        font-size: 14px; /* Zmniejsz czcionkę dla przycisków */
+        padding: 0.4em 0.8em; /* Dopasuj wewnętrzne odstępy */
+    }
+
+    #header .logo {
+        padding-left: 2em; /* Zmniejsz odstęp od lewej strony */
+    }
+
+    #header .logo img {
+        max-width: 120px; /* Zmniejsz logo */
+    }
+}

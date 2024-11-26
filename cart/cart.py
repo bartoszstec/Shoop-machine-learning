@@ -1,4 +1,8 @@
 from flask import Blueprint, session, request, jsonify, render_template, flash, redirect, url_for
+from models.product import Product
+from models.order import Order, OrderItem
+from extensions import db
+from datetime import datetime
 
 cart = Blueprint('cart', __name__)
 
@@ -21,6 +25,16 @@ def add_to_cart():
     if 'user_id' not in session:
         flash('Musisz być zalogowany, aby zobaczyć tę stronę. Nie masz konta? Utwórz je klikając przycisk poniżej', "info")
         return jsonify({}), 401 #pusty json z kodem 401(brak autoryzacji)
+    
+     # Sprawdź dostępność produktu w bazie danych
+    product = Product.query.get(product_id)
+    if not product:
+        flash('Produkt nie istnieje.', "danger")
+        return jsonify({}), 404
+
+    if product.quantity <= 0:
+        flash('Produkt jest niedostępny.', "warning")
+        return jsonify({}), 400
 
     if 'cart' not in session:
         session['cart'] = {}
@@ -28,6 +42,10 @@ def add_to_cart():
     cart = session['cart']
 
     if product_id in cart:
+        # Sprawdź, czy dodanie kolejnej sztuki nie przekracza dostępności
+        if cart[product_id]['quantity'] + 1 > product.quantity:
+            flash('Brak wystarczającej ilości tego produktu w magazynie.', "warning")
+            return jsonify({}), 400
         cart[product_id]['quantity'] += 1
     else:
         cart[product_id] = {
@@ -56,3 +74,49 @@ def clear_cart():
     session.pop('cart', None)
     flash('Koszyk został wyczyszczony', "info")
     return jsonify()
+
+@cart.route('/finalization', methods=['POST'])
+def finalization():
+    if 'user_id' not in session:
+        flash('Musisz być zalogowany, aby złożyć zamówienie.', "info")
+        return redirect(url_for('auth.login'))
+
+    cart = session.get('cart', {})
+    if not cart:
+        flash('Koszyk jest pusty. Dodaj produkty, aby kontynuować.', "info")
+        return redirect(url_for('index'))
+
+    # Utwórz zamówienie
+    order = Order(
+        user_id=session['user_id'],
+        order_date=datetime.now(),
+        status='Pending'
+    )
+    db.session.add(order)
+    db.session.flush()  # Pobiera ID zamówienia przed commitem
+
+    for product_id, item in cart.items():
+        product = Product.query.get(product_id)
+        if not product or product.quantity < item['quantity']:
+            flash(f'Produkt {item["name"]} jest niedostępny w wymaganej ilości.', "warning")
+            return redirect(url_for('cart.view_cart'))
+
+        # Zmniejsz stan magazynowy
+        product.quantity -= item['quantity']
+
+        # Dodaj pozycję zamówienia
+        order_item = OrderItem(
+            order_id=order.id,
+            product_id=product.id,
+            quantity=item['quantity'],
+            price=item['price']
+        )
+        db.session.add(order_item)
+
+    # Zapisz zmiany w bazie danych
+    db.session.commit()
+
+    # Wyczyść koszyk
+    session.pop('cart', None)
+    flash('Zamówienie zostało złożone pomyślnie.', "success")
+    return redirect(url_for('cart.view_cart'))

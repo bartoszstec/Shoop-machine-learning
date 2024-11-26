@@ -38,6 +38,9 @@
 
         <!-- Dalsze kroki (np. realizacja zamówienia) -->
         <div>
+            <form action="{{ url_for('cart.finalization') }}" method="POST">
+                <button type="submit">Finalizuj zamówienie</button>
+            </form>
             <button onclick="window.location.href='/'">Kontynuuj zakupy</button>
             <button onclick="clearCart()">Wyczyść koszyk</button>
         </div>

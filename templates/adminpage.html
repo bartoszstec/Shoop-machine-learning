@@ -48,6 +48,39 @@
 
 <!-- Sekcja produktów -->
 <div id="products-section" style="display:none;">
+
+    <div class="container" style="max-width: 800px; margin: 0 auto; padding: 100px;">
+        <h2>Dodaj nowy produkt</h2>
+        <form action="{{ url_for('auth.add_product') }}" method="post">
+            <label for="name">Nazwa:</label>
+            <input type="text" name="name" required>
+    
+            <label for="category">Kategoria:</label>
+            <select name="category" required>
+                <option value="AGD">AGD</option>
+                <option value="RTV">RTV</option>
+                <option value="Telefony">Telefony</option>
+                <option value="Odzież">Odzież</option>
+                <option value="Sport">Sport</option>
+                <option value="Zegarki i biżuteria">Zegarki i biżuteria</option>
+            </select>
+    
+            <label for="description">Opis:</label>
+            <textarea name="description"></textarea>
+    
+            <label for="quantity">Ilość sztuk:</label>
+            <input type="number" name="quantity" required min="0">
+    
+            <label for="price">Cena:</label>
+            <input type="number" name="price" step="0.01" required>
+    
+            <label for="image_url">URL obrazka (opcjonalnie):</label>
+            <input type="text" name="image_url">
+    
+            <button type="submit">Dodaj produkt</button>
+        </form>
+        </div>
+
     <h2>Tabela produktów</h2>
     <table>
         <thead>
@@ -77,38 +110,6 @@
             {% endfor %}
         </tbody>
     </table>
-
-
-
-    <h2>Dodaj nowy produkt</h2>
-    <form action="{{ url_for('auth.add_product') }}" method="post">
-        <label for="name">Nazwa:</label>
-        <input type="text" name="name" required>
-
-        <label for="category">Kategoria:</label>
-        <select name="category" required>
-            <option value="AGD">AGD</option>
-            <option value="RTV">RTV</option>
-            <option value="Telefony">Telefony</option>
-            <option value="Odzież">Odzież</option>
-            <option value="Sport">Sport</option>
-            <option value="Zegarki i biżuteria">Zegarki i biżuteria</option>
-        </select>
-
-        <label for="description">Opis:</label>
-        <textarea name="description"></textarea>
-
-        <label for="quantity">Ilość sztuk:</label>
-        <input type="number" name="quantity" required min="0">
-
-        <label for="price">Cena:</label>
-        <input type="number" name="price" step="0.01" required>
-
-        <label for="image_url">URL obrazka (opcjonalnie):</label>
-        <input type="text" name="image_url">
-
-        <button type="submit">Dodaj produkt</button>
-    </form>
 </div>
 </div>
 

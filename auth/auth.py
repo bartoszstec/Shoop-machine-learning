@@ -40,7 +40,7 @@ def register():
         
         # Sprawdzenie czy użytkownik już istnieje
         if Person.query.filter_by(login=login).first():
-            flash('Użytkownik już istnieje!', "error")
+            flash('Użytkownik o podanym loginie już istnieje!', "error")
             return redirect(url_for('auth.login'))
         
         # Utworzenie nowego użytkownika
