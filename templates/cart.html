@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section id="koszyk" class="main style1 special">
+<section id="koszyk" class="special">
     <div class="container">
-        <header class="major">
+        <header>
             <h2>Twój koszyk</h2>
         </header>
 
         <!-- Lista produktów w koszyku -->
-        <table>
+        <table style="text-align: left;">
             <thead>
                 <tr>
                     <th>Produkt</th>
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Dalsze kroki (np. realizacja zamówienia) -->
-        <div>
+        <div style="padding: 20px; margin-bottom: 50px;">
             <form action="{{ url_for('cart.finalization') }}" method="POST">
                 <button type="submit">Finalizuj zamówienie</button>
             </form>

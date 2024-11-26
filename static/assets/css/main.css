@@ -3205,11 +3205,26 @@ input, select, textarea {
         margin-bottom: 10px;
     }
 
+	.product-container {
+		margin-bottom: 150px;
+	}
+
+
+	.product-image-container {
+		width: 200px;
+		height: 200px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden; /* Ukrycie elementów wystających poza pojemnik */
+		border: 2px solid black;
+	}
+
     .product-image {
-        width: 100px;  /* Ustal odpowiednią szerokość */
-        height: auto;  /* Zachowaj proporcje */
-        max-height: 100px;  /* Opcjonalnie, ustaw maksymalną wysokość */
-    }
+		width: auto;
+		height: 100%;
+		object-fit: cover; /* Dostosowuje obraz, wypełniając pojemnik przy zachowaniu proporcji */
+	}
 
 /* Footer */
 

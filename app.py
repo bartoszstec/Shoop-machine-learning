@@ -29,6 +29,16 @@ def show_category(category_name):
     
     return render_template('category.html', category_name=category_name, products=products)
 
+@app.route('/product', methods=['POST'])
+def productDetails():
+    product_id = request.form.get('product_id')
+    if not product_id:
+        return redirect(url_for('index'))  # Jeśli brak ID, przekieruj na stronę główną
+    
+    # Pobierz produkt z bazy danych
+    product = Product.query.get_or_404(product_id)
+    return render_template('product.html', product=product)
+
 @app.route('/search_products', methods=['GET'])
 def search_products():
     # Pobierz zapytanie z parametrów URL
