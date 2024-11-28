@@ -12,6 +12,9 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable=False)  # Cena produktu
     image_url = db.Column(db.String(255), nullable=True)  # Opcjonalny URL obrazka produktu
     date_added = db.Column(db.DateTime, default=datetime.now)  # Data dodania produktu
+
+    # Relacja do komentarzy
+    comments = db.relationship('Comment', back_populates='product', cascade='all, delete-orphan')
     
     def __repr__(self):
         return f"<Product {self.name} - {self.category}>"

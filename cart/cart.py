@@ -96,7 +96,7 @@ def finalization():
     db.session.flush()  # Pobiera ID zamówienia przed commitem
 
     for product_id, item in cart.items():
-        product = Product.query.get(product_id)
+        product = Product.query.with_for_update().get(product_id)
         if not product or product.quantity < item['quantity']:
             flash(f'Produkt {item["name"]} jest niedostępny w wymaganej ilości.', "warning")
             return redirect(url_for('cart.view_cart'))
@@ -104,12 +104,15 @@ def finalization():
         # Zmniejsz stan magazynowy
         product.quantity -= item['quantity']
 
+        # Aktualizuj cenę na podstawie bazy danych
+        item['price'] = product.price
+
         # Dodaj pozycję zamówienia
         order_item = OrderItem(
             order_id=order.id,
             product_id=product.id,
             quantity=item['quantity'],
-            price=item['price']
+            price=item['price'] * item['quantity']
         )
         db.session.add(order_item)
 

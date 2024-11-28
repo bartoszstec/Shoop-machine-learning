@@ -37,7 +37,8 @@ def productDetails():
     
     # Pobierz produkt z bazy danych
     product = Product.query.get_or_404(product_id)
-    return render_template('product.html', product=product)
+    comments = product.comments
+    return render_template('product.html', product=product, comments=comments)
 
 @app.route('/search_products', methods=['GET'])
 def search_products():

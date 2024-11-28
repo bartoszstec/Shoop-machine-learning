@@ -2,11 +2,75 @@
 {% block content %}
 
 <section class="special">
-<div class="container">
             <h3>{{ product.name }}</h3>
-            <img src="{{ product.image_url }}" alt="{{ product.name }} zdjęcie">
+            <img src="{{ product.image_url }}" alt="{{ product.name }} zdjęcie" class="product-image-details">
             <p>Cena: {{ product.price }}</p>
-</div>
+            <button onclick="addToCart('{{ product.id }}', '{{ product.name }}', '{{ product.price }}')">Dodaj do koszyka</button>
 </section>
+<div>
+    <h2>Komentarze</h2>
+    <!-- Wyświetlanie istniejących komentarzy -->
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <strong>{{ comment.user_name }}</strong>: {{ comment.content }} (Dodano: {{ comment.created_at }})
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 
+<div>
+    <h3>Dodaj komentarz</h3>
+    <form action="" method="POST">
+        <input type="text" name="user_name" placeholder="Twoje imię" required>
+        <textarea name="content" placeholder="Treść komentarza" required></textarea>
+        <button type="submit">Dodaj komentarz</button>
+    </form>
+</div>
+
+
+
+
+
+
+<script>
+    function updateCartCount(cart) {
+    const totalQuantity = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+    
+    const cartCountElement = document.getElementById('cart-count');
+    cartCountElement.textContent = totalQuantity > 0 ? totalQuantity : '';
+}
+    
+function addToCart(productId, productName, productPrice) {
+    // Prepare data to send in the POST request
+    const formData = new URLSearchParams();
+    formData.append('product_id', productId);
+    formData.append('product_name', productName);
+    formData.append('product_price', productPrice);
+
+    // Send POST request to endpoint /cart/add_to_cart
+    fetch('/cart/add_to_cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData.toString()
+    })
+    .then(response => {
+        if (response.status === 401) {
+            // Jeśli użytkownik nie jest zalogowany, przekieruj na stronę logowania
+            window.location.href = '/auth/login';
+        } else {
+            // Jeśli odpowiedź jest prawidłowa, parsuj JSON
+            return response.json();
+        }
+    })
+    .then(cart => {
+        // Update the total count of items in the cart
+        updateCartCount(cart);
+        location.reload();
+    })
+    .catch(error => console.error('Błąd:', error));
+}
+    </script>
 {% endblock %}

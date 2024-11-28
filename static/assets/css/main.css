@@ -3220,6 +3220,16 @@ input, select, textarea {
 		border: 2px solid black;
 	}
 
+	.product-image-details {
+	max-width: 600px;
+    max-height: 600px;
+    width: auto;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+		
+	}
+
     .product-image {
 		width: auto;
 		height: 100%;
