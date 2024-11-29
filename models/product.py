@@ -2,7 +2,7 @@ from extensions import db
 from datetime import datetime
 
 class Product(db.Model):
-    __tablename__ = 'products'
+    __tablename__ = 'product'
     
     id = db.Column(db.Integer(), primary_key=True)  # ID produktu
     name = db.Column(db.String(255), nullable=False)  # Nazwa produktu

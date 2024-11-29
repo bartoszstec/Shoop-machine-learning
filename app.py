@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from config import Config
 from extensions import db
 from models.product import Product
+from models.comment import Comment
 from auth.auth import auth
 from cart.cart import cart
 from sqlalchemy import or_
@@ -29,7 +30,7 @@ def show_category(category_name):
     
     return render_template('category.html', category_name=category_name, products=products)
 
-@app.route('/product', methods=['POST'])
+@app.route('/product_details', methods=['POST'])
 def productDetails():
     product_id = request.form.get('product_id')
     if not product_id:
@@ -66,13 +67,30 @@ def search_products():
     # Zwróć dane w formacie JSON
     return jsonify(products_data)
 
-
-@app.route('/dashboard')
-def dashboard():
+@app.route('/add_comment', methods=['POST'])
+def add_comment():
+    # Sprawdź, czy użytkownik ma rolę "admin"
     if 'user_id' not in session:
-        flash('Musisz być zalogowany, aby zobaczyć tę stronę. Nie masz konta? Utwórz je klikając przycisk poniżej', "info")
+        flash('Zaloguj się, aby dodać komentarz.', 'warning')
         return redirect(url_for('auth.login'))
-    return render_template('dashboard.html')
+    
+    # Pobierz dane z formularza
+    product_id = request.form['product_id']
+    user_name = request.form['user_name']
+    content = request.form['content']
+    
+    # # Utwórz nowy komentarz
+    new_comment = Comment(product_id=product_id, user_name=user_name, content=content)
+    
+    db.session.add(new_comment)
+    db.session.commit()
+    
+    flash('Komentarz został opublikowany!', 'success')
+    
+    product = Product.query.get_or_404(product_id)
+    comments = Comment.query.filter_by(product_id=product_id).all()
+    # # Przekieruj z powrotem do strony admina z parametrem "#products-section"
+    return render_template('product.html', product=product, comments=comments)
 
 
 if __name__ == '__main__':
