@@ -20,11 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Wyświetl nowe wyniki
                 products.forEach(product => {
+                    
                     const productDiv = document.createElement('div');
                     productDiv.innerHTML = `
+                    <a href="/product_details?product_id=${product.id}">
                         <h3>${product.name}</h3>
-                        <img src="${product.image_url}" alt="${product.name}" class="product-image">
+                        <img src="${product.image_url}" alt="${product.name}" class="searched-product-image">
                         <p>Cena: ${product.price}</p>
+                    </a>
                     `;
                     searchResults.appendChild(productDiv);
                 });

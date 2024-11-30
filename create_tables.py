@@ -1,6 +1,6 @@
 from flask import Flask
 from extensions import db
-from models import comment, person, product, order
+from models import Comment, Person, Product, Order
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/shoopdb'

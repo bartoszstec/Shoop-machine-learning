@@ -30,9 +30,9 @@ def show_category(category_name):
     
     return render_template('category.html', category_name=category_name, products=products)
 
-@app.route('/product_details', methods=['POST'])
+@app.route('/product_details', methods=['GET', 'POST'])
 def productDetails():
-    product_id = request.form.get('product_id')
+    product_id = request.args.get('product_id') if request.method == 'GET' else request.form.get('product_id')
     if not product_id:
         return redirect(url_for('index'))  # Jeśli brak ID, przekieruj na stronę główną
     
@@ -57,6 +57,7 @@ def search_products():
     # Przygotuj dane produktów do formatu JSON
     products_data = [
         {
+            "id": product.id,
             "name": product.name,
             "price": product.price,
             "image_url": product.image_url  # lub "/static/images/default.png" dla braku obrazka
@@ -86,11 +87,7 @@ def add_comment():
     db.session.commit()
     
     flash('Komentarz został opublikowany!', 'success')
-    
-    product = Product.query.get_or_404(product_id)
-    comments = Comment.query.filter_by(product_id=product_id).all()
-    # # Przekieruj z powrotem do strony admina z parametrem "#products-section"
-    return render_template('product.html', product=product, comments=comments)
+    return redirect(url_for('productDetails', product_id=product_id))
 
 
 if __name__ == '__main__':

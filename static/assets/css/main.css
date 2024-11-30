@@ -3210,6 +3210,12 @@ input, select, textarea {
 	}
 
 
+	.searched-product-image {
+		width: 75px;
+		height: auto;
+	}
+
+
 	.product-image-container {
 		width: 200px;
 		height: 200px;
@@ -3417,7 +3423,7 @@ input, select, textarea {
 	}
 }
 
-@media screen and (max-width: 1431px) {
+@media screen and (max-width: 1440px) {
     #header nav ul {
         justify-content: flex-start; /* Dopasowuje nawigację do lewej */
         flex-wrap: wrap; /* Pozwala elementom przechodzić do następnego wiersza */

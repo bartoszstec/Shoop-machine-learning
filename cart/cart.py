@@ -86,10 +86,12 @@ def finalization():
         flash('Koszyk jest pusty. Dodaj produkty, aby kontynuować.', "info")
         return redirect(url_for('index'))
 
+    total_price = sum(item['price'] * item['quantity'] for item in cart.values())
     # Utwórz zamówienie
     order = Order(
         user_id=session['user_id'],
         order_date=datetime.now(),
+        total_price=total_price,
         status='Pending'
     )
     db.session.add(order)
@@ -118,6 +120,7 @@ def finalization():
 
     # Zapisz zmiany w bazie danych
     db.session.commit()
+
 
     # Wyczyść koszyk
     session.pop('cart', None)

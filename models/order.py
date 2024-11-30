@@ -7,10 +7,16 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # ID zamówienia
     user_id = db.Column(db.Integer, nullable=False)  # ID użytkownika składającego zamówienie
     order_date = db.Column(db.DateTime, default=datetime.now)  # Data złożenia zamówienia
+    total_price = db.Column(db.Float, nullable=False) # Cena za całe zamówienie
     status = db.Column(db.String(50), default='Pending')  # Status zamówienia (np. Pending, Completed)
 
     # Relacja do tabeli `order_item`
-    items = db.relationship('OrderItem', backref='order', lazy=True)
+    items = db.relationship(
+        'OrderItem',
+        backref='order',
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
 
     def __repr__(self):
         return f"<Order {self.id} - Status: {self.status}>"
