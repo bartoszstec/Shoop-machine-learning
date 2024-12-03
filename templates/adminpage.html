@@ -57,12 +57,9 @@
     
             <label for="category">Kategoria:</label>
             <select name="category" required>
-                <option value="AGD">AGD</option>
-                <option value="RTV">RTV</option>
-                <option value="Telefony">Telefony</option>
-                <option value="Odzież">Odzież</option>
-                <option value="Sport">Sport</option>
-                <option value="Zegarki i biżuteria">Zegarki i biżuteria</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.category_name }}</option>
+                {% endfor %}
             </select>
     
             <label for="description">Opis:</label>
@@ -72,7 +69,7 @@
             <input type="number" name="quantity" required min="0">
     
             <label for="price">Cena:</label>
-            <input type="number" name="price" step="0.01" required>
+            <input type="number" name="price" step="0.01" min="0" required>
     
             <label for="image_url">URL obrazka (opcjonalnie):</label>
             <input type="text" name="image_url">
@@ -100,7 +97,7 @@
             <tr>
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
-                <td>{{ product.category }}</td>
+                <td>{{ product.category.category_name }}</td>
                 <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ product.description }}</td>
                 <td>{{ product.quantity}}</td>
                 <td>{{ product.price}}</td>

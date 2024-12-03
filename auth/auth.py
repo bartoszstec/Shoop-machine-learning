@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models.person import Person
 from models.product import Product
+from models.category import Category
 from extensions import db
 
 auth = Blueprint('auth', __name__)
@@ -72,8 +73,9 @@ def adminpage():
     # Pobierz listę wszystkich użytkowników
     users = Person.query.all()
     products = Product.query.all()
+    categories = Category.query.all()
     
-    return render_template('adminpage.html', users=users, products=products)
+    return render_template('adminpage.html', users=users, products=products, categories=categories)
 
 @auth.route('/change_role/<int:user_id>', methods=['POST'])
 def change_role(user_id):
@@ -106,14 +108,14 @@ def add_product():
     
     # Pobierz dane z formularza
     name = request.form['name']
-    category = request.form['category']
+    category_id = request.form['category']
     description = request.form['description']
     quantity = int(request.form['quantity'])
     price = float(request.form['price'])
     image_url = request.form.get('image_url', None)
     
     # Utwórz nowy produkt
-    new_product = Product(name=name, category=category, description=description,
+    new_product = Product(name=name, category_id=category_id, description=description,
                           quantity=quantity, price=price, image_url=image_url)
     
     db.session.add(new_product)

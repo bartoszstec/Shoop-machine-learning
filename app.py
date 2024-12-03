@@ -3,6 +3,7 @@ from config import Config
 from extensions import db
 from models.product import Product
 from models.comment import Comment
+from models.category import Category
 from auth.auth import auth
 from cart.cart import cart
 from sqlalchemy import or_
@@ -26,7 +27,13 @@ def index():
 
 @app.route('/kategorie/<category_name>')
 def show_category(category_name):
-    products = Product.query.filter_by(category=category_name).all()
+    category = Category.query.filter_by(category_name=category_name).first()
+
+    if not category:
+        # Jeśli kategoria nie istnieje, zwróć błąd 404
+        return render_template('404.html'), 404
+
+    products = Product.query.filter_by(category_id=category.id).all()
     
     return render_template('category.html', category_name=category_name, products=products)
 
