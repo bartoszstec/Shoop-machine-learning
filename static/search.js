@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Wyślij żądanie AJAX do serwera
-        fetch(`/search_products?query=${encodeURIComponent(query)}`)
+        fetch(`/api/search_products?query=${encodeURIComponent(query)}`)
             .then(response => response.json())
             .then(products => {
                 // Wyczyść poprzednie wyniki

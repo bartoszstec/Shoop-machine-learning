@@ -11,7 +11,7 @@
                 <div class="col-3 col-12-medium">
                     <div class="product-container">
                         <h3>{{ product.name }}</h3>
-                        <form action="{{ url_for('productDetails') }}" method="POST">
+                        <form action="{{ url_for('views.productDetails') }}" method="POST">
                             <input type="hidden" name="product_id" value="{{ product.id }}">
                             <button type="submit" style="border: none; background: none;">
                                 <div class="product-image-container">

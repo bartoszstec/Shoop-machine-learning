@@ -21,7 +21,7 @@ def login():
             session['user_login'] = user.login
             session['user_role'] = user.role
             flash('Zalogowano pomyślnie!', "success")
-            return redirect(url_for('index'))
+            return redirect(url_for('views.index'))
         else:
             flash('Niepoprawny login lub hasło.', "error")
     
@@ -68,7 +68,7 @@ def adminpage():
     # Sprawdź, czy użytkownik ma rolę "admin"
     if session.get('user_role') != 'admin':
         flash('Nie masz dostępu do tej strony.', 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('views.index'))
     
     # Pobierz listę wszystkich użytkowników
     users = Person.query.all()
@@ -82,7 +82,7 @@ def change_role(user_id):
     # Sprawdź, czy użytkownik ma rolę "admin"
     if session.get('user_role') != 'admin':
         flash('Nie masz uprawnień do zmiany ról użytkowników.', 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('views.index'))
     
     # Pobierz nową rolę z formularza
     new_role = request.form['new_role']
@@ -104,7 +104,7 @@ def add_product():
     # Sprawdź, czy użytkownik ma rolę "admin"
     if session.get('user_role') != 'admin':
         flash('Nie masz uprawnień do dodawania produktów.', 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('views.index'))
     
     # Pobierz dane z formularza
     name = request.form['name']

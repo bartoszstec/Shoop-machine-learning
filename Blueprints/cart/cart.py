@@ -84,7 +84,7 @@ def finalization():
     cart = session.get('cart', {})
     if not cart:
         flash('Koszyk jest pusty. Dodaj produkty, aby kontynuować.', "info")
-        return redirect(url_for('index'))
+        return redirect(url_for('views.index'))
 
     total_price = sum(item['price'] * item['quantity'] for item in cart.values())
     # Utwórz zamówienie
