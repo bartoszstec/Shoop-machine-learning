@@ -17,5 +17,18 @@ class Product(db.Model):
     comments = db.relationship('Comment', back_populates='product', cascade='all, delete-orphan')
 
     
+    def to_dict(self):
+        """Konwertuje obiekt Product na słownik."""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "category_id": self.category_id,
+            "description": self.description,
+            "quantity": self.quantity,
+            "price": self.price,
+            "image_url": self.image_url,
+            "date_added": self.date_added
+        }
+    
     def __repr__(self):
         return f"<Product {self.name} - {self.category}>"

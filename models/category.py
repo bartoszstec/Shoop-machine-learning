@@ -10,5 +10,12 @@ class Category(db.Model):
      # Relacja z produktami
     products = db.relationship('Product', backref='category', lazy=True)
 
+    def to_dict(self):
+        """Konwertuje obiekt Category na słownik."""
+        return {
+            "id": self.id,
+            "category_name": self.category_name
+        }
+
     def __repr__(self):
         return f"<Category {self.category_name}>"

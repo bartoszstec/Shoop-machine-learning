@@ -12,47 +12,6 @@ from extensions import db
 
 api = Blueprint('api', __name__)
 
-#Produkty
-@api.route('/products', methods=['GET'])
-def get_products():
-    """Zwraca listę wszystkich produktów."""
-    products = Product.query.all()
-    return jsonify([product.to_dict() for product in products]), 200
-
-@api.route('/products/<int:product_id>', methods=['GET'])
-def get_product(product_id):
-    """Zwraca szczegóły konkretnego produktu."""
-    product = Product.query.get(product_id)
-    if not product:
-        return jsonify({"error": "Product not found"}), 404
-    return jsonify(product.to_dict()), 200
-
-@api.route('/products', methods=['POST'])
-def create_product():
-    """Tworzy nowy produkt."""
-    data = request.json
-    product = Product(
-        name=data.get('name'),
-        category_id=data.get('category_id'),
-        description=data.get('description'),
-        price=data.get('price'),
-        quantity=data.get('quantity'),
-        image_url=data.get('image_url')
-    )
-    db.session.add(product)
-    db.session.commit()
-    return jsonify(product.to_dict()), 201
-
-@api.route('/products/<int:product_id>', methods=['DELETE'])
-def delete_product(product_id):
-    """Usuwa produkt."""
-    product = Product.query.get(product_id)
-    if not product:
-        return jsonify({"error": "Product not found"}), 404
-    db.session.delete(product)
-    db.session.commit()
-    return '', 204
-
 #Wyszukiwanie dynamiczne
 @api.route('/search_products', methods=['GET'])
 def search_products():
@@ -80,113 +39,40 @@ def search_products():
 
     return jsonify(products_data), 200
 
-#Kategorie
-@api.route('/categories', methods=['GET'])
-def get_categories():
-    """Zwraca listę wszystkich kategorii."""
-    categories = Category.query.all()
-    return jsonify([category.to_dict() for category in categories]), 200
-
-#Komentarze
-@api.route('/products/<int:product_id>/comments', methods=['GET'])
-def get_comments(product_id):
-    """Zwraca komentarze dla produktu."""
-    product = Product.query.get(product_id)
-    if not product:
-        return jsonify({"error": "Product not found"}), 404
-    comments = product.comments
-    return jsonify([comment.to_dict() for comment in comments]), 200
-
-@api.route('/products/<int:product_id>/comments', methods=['POST'])
+#Dodawanie komentarza
+@api.route('/products/<int:product_id>/addcomment', methods=['POST'])
 def add_comment(product_id):
     """Dodaje komentarz do produktu."""
-    product = Product.query.get(product_id)
-    if not product:
-        return jsonify({"error": "Product not found"}), 404
     data = request.json
-    comment = Comment(
+    new_comment = Comment(
         product_id=product_id,
-        user_name=data.get('user_name'),
-        content=data.get('content')
+        user_name=data['user_name'],
+        content=data['content']
     )
-    db.session.add(comment)
+    db.session.add(new_comment)
     db.session.commit()
-    return jsonify(comment.to_dict()), 201
+    return jsonify(new_comment.to_dict()), 201
 
-#Koszyk
-@api.route('/cart', methods=['GET'])
-def get_cart():
-    """Zwraca koszyk użytkownika."""
-    cart = session.get('cart', {})
-    return jsonify(cart), 200
+#Wyświetlanie produktów danej kategorii
+@api.route('/categories/<category_name>', methods=['GET'])
+def get_category_with_products(category_name):
+    category = Category.query.filter_by(category_name=category_name).first()
+    if not category:
+        return jsonify({"error": "Category not found"}), 404
 
-@api.route('/cart', methods=['POST'])
-def add_to_cart():
-    """Dodaje produkt do koszyka."""
-    data = request.json
-    product_id = data.get('product_id')
-    quantity = data.get('quantity', 1)
+    products = Product.query.filter_by(category_id=category.id).all()
+    return jsonify({
+        "category": category.to_dict(),
+        "products": [product.to_dict() for product in products]
+    }), 200
 
-    product = Product.query.get(product_id)
-    if not product or product.quantity < quantity:
-        return jsonify({"error": "Product unavailable"}), 400
+#Wyświetlanie szczegółów produktu
+@api.route('/products/<product_id>', methods=['GET'])
+def get_product_details(product_id):
 
-    cart = session.get('cart', {})
-    if product_id in cart:
-        cart[product_id]['quantity'] += quantity
-    else:
-        cart[product_id] = {
-            'name': product.name,
-            'price': product.price,
-            'quantity': quantity
-        }
-    session['cart'] = cart
-    return jsonify(cart), 200
-
-@api.route('/cart/<int:product_id>', methods=['DELETE'])
-def remove_from_cart(product_id):
-    """Usuwa produkt z koszyka."""
-    cart = session.get('cart', {})
-    if product_id in cart:
-        del cart[product_id]
-        session['cart'] = cart
-    return jsonify(cart), 200
-
-@api.route('/cart', methods=['DELETE'])
-def clear_cart():
-    """Czyści koszyk."""
-    session.pop('cart', None)
-    flash('Koszyk został wyczyszczony', "info")
-    return jsonify({"message": "Cart cleared"}), 200
-
-#Zamówienia
-@api.route('/orders', methods=['POST'])
-def create_order():
-    """Tworzy nowe zamówienie."""
-    data = request.json
-    cart = session.get('cart', {})
-    if not cart:
-        return jsonify({"error": "Cart is empty"}), 400
-
-    total_price = sum(item['price'] * item['quantity'] for item in cart.values())
-    order = Order(
-        user_id=data.get('user_id'),
-        order_date=datetime.now(),
-        total_price=total_price,
-        status='Pending'
-    )
-    db.session.add(order)
-    db.session.flush()
-
-    for product_id, item in cart.items():
-        order_item = OrderItem(
-            order_id=order.id,
-            product_id=product_id,
-            quantity=item['quantity'],
-            price=item['price'] * item['quantity']
-        )
-        db.session.add(order_item)
-
-    db.session.commit()
-    session.pop('cart', None)
-    return jsonify(order.to_dict()), 201
+    product = Product.query.get_or_404(product_id)
+    comments = product.comments
+    return jsonify({
+        "product": product.to_dict(),
+        "comments": [comment.to_dict() for comment in comments]
+    }), 200

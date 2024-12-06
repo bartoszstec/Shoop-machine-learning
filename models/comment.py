@@ -12,3 +12,12 @@ class Comment(db.Model):
 
     # Relacja odwrotna do modelu produktu
     product = db.relationship('Product', back_populates='comments')
+
+    def to_dict(self):
+        return {
+        "id": self.id,
+        "product_id": self.product_id,
+        "user_name": self.user_name,
+        "content": self.content,
+        "created_at": self.created_at.strftime('%Y-%m-%d %H:%M')
+    }

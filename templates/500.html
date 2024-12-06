@@ -1,1 +1,13 @@
-500 Internal Server Error
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>505 - Internal Server Error</title>
+</head>
+<body>
+    <h1>505 - Błąd Serwera</h1>
+    <p>{{ error }}</p>
+    <a href="{{ url_for('views.index') }}">Wróć na stronę główną</a>
+</body>
+</html>

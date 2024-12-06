@@ -6,12 +6,15 @@ from datetime import datetime
 
 cart = Blueprint('cart', __name__)
 
+def calculate_total_price(cart):
+    return sum(item['price'] * item['quantity'] for item in cart.values())
+
 @cart.route('/view_cart')
 def view_cart():
 
     cart = session.get('cart', {})
     # Przelicz całkowitą cenę
-    total_price = sum(item['price'] * item['quantity'] for item in cart.values())
+    total_price = calculate_total_price(cart)
 
     return render_template('cart.html', cart=cart, total_price=total_price)
 
@@ -86,7 +89,7 @@ def finalization():
         flash('Koszyk jest pusty. Dodaj produkty, aby kontynuować.', "info")
         return redirect(url_for('views.index'))
 
-    total_price = sum(item['price'] * item['quantity'] for item in cart.values())
+    total_price = calculate_total_price(cart)
     # Utwórz zamówienie
     order = Order(
         user_id=session['user_id'],
