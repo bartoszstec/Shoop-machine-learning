@@ -6,7 +6,9 @@
             <img src="{{ product.image_url }}" alt="{{ product.name }} zdjęcie" class="product-image-details">
             <p>Cena: {{ product.price }}</p>
             <button onclick="addToCart('{{ product.id }}', '{{ product.name }}', '{{ product.price }}')">Dodaj do koszyka</button>
+            <p class="description">Opis:<br> {{ product.description|safe }}</p>
 </section>
+<section class="comment-section">
 <div>
     <h2>Komentarze</h2>
     <!-- Wyświetlanie istniejących komentarzy -->
@@ -20,19 +22,29 @@
 </div>
 
 <div>
-    <form action="{{ url_for('views.add_comment_view') }}" method="POST">
+    <form id="comment-form" action="{{ url_for('views.add_comment_view') }}" method="POST">
         <input type="hidden" name="product_id" value="{{ product.id }}">
         <input type="hidden" name="user_name" value="{{ session['user_login'] }}">
         <label>Dodaj komentarz:</label>
-        <textarea name="content" placeholder="Treść komentarza" required></textarea>
+        <textarea id="comment-content" name="content" placeholder="Treść komentarza" required></textarea>
         <button type="submit">Dodaj komentarz</button>
     </form>
 </div>
+</section>
 
-
-
-
-
+<script>
+    document.getElementById('comment-content').addEventListener('keydown', function (event) {
+        // Sprawdź, czy naciśnięto Enter i nie wciśnięto Shift
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault(); // Zapobiega dodaniu nowej linii
+            if (this.value.trim() === "") {
+                alert("Treść komentarza nie może być pusta!");
+                return; // Zatrzymuje wysyłanie formularza
+            }
+            document.getElementById('comment-form').submit(); // Wysyła formularz
+        }
+    });
+</script>
 
 <script>
     function updateCartCount(cart) {

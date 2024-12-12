@@ -53,26 +53,28 @@
         <h2>Dodaj nowy produkt</h2>
         <form action="{{ url_for('auth.add_product') }}" method="post">
             <label for="name">Nazwa:</label>
-            <input type="text" name="name" required>
+            <input type="text" name="name" id="name" autocomplete="off" required>
     
             <label for="category">Kategoria:</label>
-            <select name="category" required>
+            <select name="category" id="category" required>
                 {% for category in categories %}
                 <option value="{{ category.id }}">{{ category.category_name }}</option>
                 {% endfor %}
             </select>
     
             <label for="description">Opis:</label>
-            <textarea name="description"></textarea>
+            <textarea name="description" id="description" maxlength="5000" rows="15"></textarea>
+            <span id="charCount">0/5000</span>
+    
     
             <label for="quantity">Ilość sztuk:</label>
-            <input type="number" name="quantity" required min="0">
+            <input type="number" name="quantity" id="quantity" required min="0">
     
             <label for="price">Cena:</label>
-            <input type="number" name="price" step="0.01" min="0" required>
+            <input type="number" name="price" id="price" step="0.01" min="0" required>
     
             <label for="image_url">URL obrazka (opcjonalnie):</label>
-            <input type="text" name="image_url">
+            <input type="text" name="image_url" id="image_url">
     
             <button type="submit">Dodaj produkt</button>
         </form>
@@ -127,6 +129,21 @@
             showSection('products-section');
         } else {
             showSection('users-section');
+        }
+    });
+</script>
+
+<script>
+    const textarea = document.getElementById('description');
+    const charCount = document.getElementById('charCount');
+
+    textarea.addEventListener('input', () => {
+        const currentLength = textarea.value.length;
+        charCount.textContent = `${currentLength}/5000`;
+
+        // Dodatkowa walidacja (opcjonalna)
+        if (currentLength > 5000) {
+            textarea.value = textarea.value.substring(0, 5000); // Obcięcie nadmiarowych znaków
         }
     });
 </script>

@@ -3209,7 +3209,7 @@ input, select, textarea {
 		margin-bottom: 150px;
 	}
 
-
+	/* Konkretnie obrazki wyszukanych produktów */
 	.searched-product-image {
 		width: 75px;
 		height: auto;
@@ -3226,6 +3226,13 @@ input, select, textarea {
 		border: 2px solid black;
 	}
 
+	.product-image {
+		width: auto;
+		height: 100%;
+		object-fit: cover; /* Dostosowuje obraz, wypełniając pojemnik przy zachowaniu proporcji */
+	}
+
+	/* Wyświetlanie treści na product.html*/
 	.product-image-details {
 	max-width: 600px;
     max-height: 600px;
@@ -3236,10 +3243,13 @@ input, select, textarea {
 		
 	}
 
-    .product-image {
-		width: auto;
-		height: 100%;
-		object-fit: cover; /* Dostosowuje obraz, wypełniając pojemnik przy zachowaniu proporcji */
+	.description {
+		text-align: left;
+		padding-left: 20em;
+		}
+
+	.comment-section {
+		padding: 100px;
 	}
 
 /* Footer */
