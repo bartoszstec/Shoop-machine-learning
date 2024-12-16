@@ -3252,6 +3252,24 @@ input, select, textarea {
 		padding: 100px;
 	}
 
+/* Fromularz na stronie koszyka */
+form#finalizationForm label {
+    display: block; /* Wyświetlaj każdy label w osobnej linii */
+    margin-bottom: 5px; /* Zmniejsz odległość między label a input */
+    color: #333; /* Ustaw ciemny kolor dla label */
+}
+
+form#finalizationForm input[type="text"] {
+    width: 100%; /* Ustaw input na całą szerokość formularza */
+    padding: 10px; /* Dodaj padding do inputów */
+    margin-bottom: 20px; /* Większy margines na dole */
+    border: 1px solid #ccc; /* Ustaw obramowanie */
+    border-radius: 5px; /* Zaokrąglij rogi */
+    font-size: 16px; /* Większa czcionka */
+    box-sizing: border-box; /* Uwzględnij padding w szerokości */
+}
+
+
 /* Footer */
 
 	#footer {
@@ -3259,7 +3277,7 @@ input, select, textarea {
 		background-color: #4686a0;
 		color: rgba(255, 255, 255, 0.75);
 		background-attachment: fixed,							fixed,							fixed;
-		background-image: url("images/overlay2.png"), url("images/overlay4.svg"), linear-gradient(45deg, #4361c2, #4fa49a 50%, #9dc66b 95%);
+		background-image: url("images/overlay2.png"), url("images/overlay3.svg"), linear-gradient(45deg, #000000 5%, #1f233b 40%, #914558);
 		background-position: top left,						center center,					center center;
 		background-size: auto,							cover,							cover;
 		text-align: center;

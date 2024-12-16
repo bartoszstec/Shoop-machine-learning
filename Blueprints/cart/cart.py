@@ -88,14 +88,32 @@ def finalization():
     if not cart:
         flash('Koszyk jest pusty. Dodaj produkty, aby kontynuować.', "info")
         return redirect(url_for('views.index'))
+    
+    street = request.form.get('street') #Pobiera adres przesyłki z formularza
+    city = request.form.get('city')
+    zip_code = request.form.get('zip_code')
 
+    # Sprawdź, czy dane adresowe są wypełnione
+    if not street or not city or not zip_code:
+        flash('Wszystkie pola adresowe są wymagane.', "warning")
+        return redirect(url_for('cart.view_cart'))
+
+    # Sprawdź format kodu pocztowego
+    import re
+    if not re.match(r'^\d{2}-\d{3}$', zip_code):
+        flash('Kod pocztowy musi być w formacie 00-123.', "warning")
+        return redirect(url_for('cart.view_cart'))
+    
     total_price = calculate_total_price(cart)
     # Utwórz zamówienie
     order = Order(
         user_id=session['user_id'],
         order_date=datetime.now(),
         total_price=total_price,
-        status='Pending'
+        status='Pending',
+        street = street,
+        city = city,
+        zip_code = zip_code
     )
     db.session.add(order)
     db.session.flush()  # Pobiera ID zamówienia przed commitem

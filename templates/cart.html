@@ -36,8 +36,18 @@
             <h3>Całkowita cena: {{ total_price }} zł</h3>
         </div>
         <div style="padding: 20px; margin-bottom: 50px;">
-            <form id="finalizationForm" action="{{ url_for('cart.finalization') }}" method="POST" style="display: none;">
+            <form id="finalizationForm" action="{{ url_for('cart.finalization') }}" method="POST">
                 <input type="hidden" name="payment_success" value="true">
+                <div style="text-align: left;">
+                <h2>Adres przesyłki</h2>
+                <label for="street">Ulica</label>
+                <input type="text" name="street" id="street" placeholder="Nazwa ulicy, numer budynku / numer lokalu" required>
+                <label for="city">Miasto</label>
+                <input type="text" name="city" id="city" required>
+                <label for="zip_code">Kod Pocztowy</label>
+                <input type="text" name="zip_code" id="zip_code" required>
+                </div>
+
             </form>
             <button onclick="openPaymentModal()">Finalizuj zamówienie</button>
             <button onclick="window.location.href='/'">Kontynuuj zakupy</button>
@@ -94,9 +104,32 @@ function clearCart() {
     .catch(error => console.error('Błąd:', error));
 }
 
+function validateAddressForm() {
+    const street = document.getElementById("street").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const zipCode = document.getElementById("zip_code").value.trim();
+
+    // Sprawdzanie, czy wszystkie pola są wypełnione
+    if (!street || !city || !zipCode) {
+            alert("Proszę wypełnić wszystkie pola adresu.");
+            return false;
+        }
+
+    // Walidacja kodu pocztowego
+    const zipCodePattern = /^\d{2}-\d{3}$/;
+    if (!zipCodePattern.test(zipCode)) {
+        alert("Kod pocztowy musi być w formacie 00-123.");
+        return false;
+    }
+
+    return true; // Formularz jest poprawnie wypełniony
+}
+
 // Obsługa modelu płatności
 function openPaymentModal() {
-    document.getElementById("paymentModal").style.display = "block";
+    if (validateAddressForm()) {
+        document.getElementById("paymentModal").style.display = "block";
+    }
 }
 
 function closePaymentModal() {
@@ -134,4 +167,5 @@ function validateAndSubmit() {
     }
 }
 </script>
+
 {% endblock %}

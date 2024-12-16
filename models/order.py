@@ -9,6 +9,10 @@ class Order(db.Model):
     order_date = db.Column(db.DateTime, default=datetime.now)  # Data złożenia zamówienia
     total_price = db.Column(db.Float, nullable=False) # Cena za całe zamówienie
     status = db.Column(db.String(50), default='Pending')  # Status zamówienia (np. Pending, Completed)
+    street = db.Column(db.String(100), nullable=False)
+    city = db.Column(db.String(50), nullable=False)
+    zip_code = db.Column(db.String(50), nullable=False)
+
 
     # Relacja do tabeli `order_item`
     items = db.relationship(
