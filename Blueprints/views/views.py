@@ -49,10 +49,11 @@ def add_comment_view():
     product_id = request.form['product_id']
     user_name = request.form['user_name']
     content = request.form['content']
+    classification = request.form['classification']
     
     response = requests.post(
         f"{API_BASE_URL}/products/{product_id}/addcomment",
-        json={"user_name": user_name, "content": content}
+        json={"user_name": user_name, "content": content, "classification": classification}
     )
     if response.status_code == 201:
         flash("Komentarz dodany!", "success")

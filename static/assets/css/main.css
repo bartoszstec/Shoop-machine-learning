@@ -3209,6 +3209,13 @@ input, select, textarea {
 		margin-bottom: 150px;
 	}
 
+	.product-container h3 {
+		font-size: 1.2rem; /* Domyślny rozmiar czcionki */
+		text-align: center; /* Wyśrodkowanie nazwy produktu */
+		margin-bottom: 10px;
+		word-wrap: break-word; /* Zawijanie tekstu, jeśli to konieczne */
+	}
+
 	/* Konkretnie obrazki wyszukanych produktów */
 	.searched-product-image {
 		width: 75px;

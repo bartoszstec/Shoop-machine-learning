@@ -47,7 +47,8 @@ def add_comment(product_id):
     new_comment = Comment(
         product_id=product_id,
         user_name=data['user_name'],
-        content=data['content']
+        content=data['content'],
+        classification=data['classification']
     )
     db.session.add(new_comment)
     db.session.commit()

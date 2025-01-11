@@ -15,7 +15,7 @@
     <ul>
         {% for comment in comments %}
             <li>
-                <strong>{{ comment.user_name }}</strong>: {{ comment.content }} (Dodano: {{ comment.created_at }})
+                <strong>{{ comment.user_name }}</strong>: {{ comment.content }} (Dodano: {{ comment.created_at }}) Ocena: <strong>{{ comment.classification }}</strong>
             </li>
         {% endfor %}
     </ul>
@@ -27,6 +27,13 @@
         <input type="hidden" name="user_name" value="{{ session['user_login'] }}">
         <label>Dodaj komentarz:</label>
         <textarea id="comment-content" name="content" placeholder="Treść komentarza" required></textarea>
+        <label for="classification">Wybierz klasyfikację:</label>
+        <select id="classification" name="classification" required>
+            <option value="pozytywna">Pozytywna</option>
+            <option value="neutralna">Neutralna</option>
+            <option value="negatywna">Negatywna</option>
+        </select>
+
         <button type="submit">Dodaj komentarz</button>
     </form>
 </div>

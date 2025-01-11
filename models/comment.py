@@ -1,5 +1,12 @@
 from datetime import datetime
 from extensions import db
+from sqlalchemy import Enum
+import enum
+
+class ClassificationEnum(enum.Enum):
+    pozytywna = "pozytywna"
+    neutralna = "neutralna"
+    negatywna = "negatywna"
 
 class Comment(db.Model):
     __tablename__ = 'comment'
@@ -9,6 +16,7 @@ class Comment(db.Model):
     user_name = db.Column(db.String(50), nullable=False)  # Nazwa użytkownika
     content = db.Column(db.Text, nullable=False)  # Treść komentarza
     created_at = db.Column(db.DateTime, default=datetime.now)  # Data i czas dodania komentarza
+    classification = db.Column(Enum(ClassificationEnum), nullable=False)  # Klasyfikacja
 
     # Relacja odwrotna do modelu produktu
     product = db.relationship('Product', back_populates='comments')
@@ -19,5 +27,6 @@ class Comment(db.Model):
         "product_id": self.product_id,
         "user_name": self.user_name,
         "content": self.content,
-        "created_at": self.created_at.strftime('%Y-%m-%d %H:%M')
+        "created_at": self.created_at.strftime('%Y-%m-%d %H:%M'),
+        "classification": self.classification.value  # Pobieranie wartości enuma
     }
