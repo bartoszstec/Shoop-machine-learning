@@ -25,9 +25,11 @@
     <form id="comment-form" action="{{ url_for('views.add_comment_view') }}" method="POST">
         <input type="hidden" name="product_id" value="{{ product.id }}">
         <input type="hidden" name="user_name" value="{{ session['user_login'] }}">
+        <input type="hidden" name="category" value="{{ product.category }}">
+        <input type="hidden" name="product" value="{{ product.name }}">
         <label>Dodaj komentarz:</label>
         <textarea id="comment-content" name="content" placeholder="Treść komentarza" required></textarea>
-        <label for="classification">Wybierz klasyfikację:</label>
+        <label for="classification">Wybierz klasyfikację komentarza:</label>
         <select id="classification" name="classification" required>
             <option value="pozytywna">Pozytywna</option>
             <option value="neutralna">Neutralna</option>

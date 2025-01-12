@@ -2,15 +2,60 @@ from flask import Blueprint, session, request, jsonify, render_template, flash, 
 from models.product import Product
 from models.category import Category
 from models.comment import Comment
-from models.order import Order
-from models.order import OrderItem
-from datetime import datetime
 from sqlalchemy import or_
-
-
+import joblib
+import spacy
+from sklearn.preprocessing import LabelEncoder
 from extensions import db
 
 api = Blueprint('api', __name__)
+
+#label_encoder = LabelEncoder()
+
+# Załaduj model i wektoryzator
+model = joblib.load("model/rf_classifier.pkl")
+tfidf_vectorizer = joblib.load("model/tfidf_vectorizer.pkl")
+
+# Załaduj model językowy dla polskiego
+nlp = spacy.load("pl_core_news_sm")
+
+# Funkcja do lematyzacji
+def lematyzuj_tekst(tekst):
+    dokument = nlp(tekst)
+    return " ".join([token.lemma_ for token in dokument if not token.is_punct and not token.is_space])
+
+@api.route('/predict_comment_class', methods=['POST'])
+def predict_comment_class():
+    """Przewiduje klasyfikację komentarza na podstawie treści."""
+    data = request.json
+
+    try:
+        data = request.json
+
+        # Walidacja danych wejściowych
+        if not all(key in data for key in ['content', 'category', 'product']):
+            return jsonify({"error": "Brak wymaganych danych (content, category, product)."}), 400
+
+        # Pobranie danych z żądania
+        opinion_content = data['content']
+        product_category = data['category']
+        product_name = data['product']
+
+        # Przetwarzanie danych
+        lematyzowana_opinia = lematyzuj_tekst(opinion_content)
+        cechy_wejsciowe = f"{product_category} {product_name} {lematyzowana_opinia}"
+        wektor_cech = tfidf_vectorizer.transform([cechy_wejsciowe])
+
+        # Predykcja klasy
+        predicted_class = model.predict(wektor_cech)[0]
+
+        return jsonify({"predicted_class": predicted_class}), 200
+    
+    except Exception as e:
+        # Obsługa wyjątków i logowanie błędu
+        print(f"Błąd podczas predykcji: {str(e)}")
+        return jsonify({"error": "Wystąpił błąd podczas predykcji.", "details": str(e)}), 500
+
 
 #Wyszukiwanie dynamiczne
 @api.route('/search_products', methods=['GET'])

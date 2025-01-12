@@ -50,14 +50,38 @@ def add_comment_view():
     user_name = request.form['user_name']
     content = request.form['content']
     classification = request.form['classification']
+    product_category = request.form['category']
+    product_name = request.form['product']
     
     response = requests.post(
         f"{API_BASE_URL}/products/{product_id}/addcomment",
         json={"user_name": user_name, "content": content, "classification": classification}
     )
     if response.status_code == 201:
-        flash("Komentarz dodany!", "success")
+        predict_response = requests.post(
+            f"{API_BASE_URL}/predict_comment_class",
+            json={
+                "content": content,
+                "category": product_category,
+                "product": product_name
+            }
+        )
+        if predict_response.status_code == 200:
+            prediction = predict_response.json().get("predicted_class", "Nieznana")
+            flash(f"Komentarz dodany! Model przewidział klasyfikację: {prediction}", "success")
+        else:
+            print("Błąd predykcji:", predict_response.json())  # Logowanie błędu
+            flash("Komentarz dodany, ale nie udało się uzyskać predykcji.", "warning")
     else:
         flash("Nie udało się dodać komentarza.", "error")
 
+    
+
     return redirect(url_for('views.productDetails', product_id=product_id))
+
+@views.route('/myorders')
+def user_orders():
+    if 'user_id' not in session:
+        flash('Zaloguj się, aby zobaczyć sowje zamówienia.', 'warning')
+        return redirect(url_for('auth.login'))
+    return render_template('user_orders.html')
