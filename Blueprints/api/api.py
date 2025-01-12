@@ -2,6 +2,7 @@ from flask import Blueprint, session, request, jsonify, render_template, flash, 
 from models.product import Product
 from models.category import Category
 from models.comment import Comment
+from models.order import Order, OrderItem
 from sqlalchemy import or_
 import joblib
 import spacy
@@ -122,3 +123,44 @@ def get_product_details(product_id):
         "product": product.to_dict(),
         "comments": [comment.to_dict() for comment in comments]
     }), 200
+
+@api.route('/orders', methods=['GET'])
+def get_user_orders():
+    """Pobiera zamówienia użytkownika na podstawie jego ID."""
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({"error": "Brak ID użytkownika"}), 400
+
+    try:
+        # Pobranie zamówień użytkownika
+        orders = Order.query.filter_by(user_id=user_id).all()
+
+        # Jeśli brak zamówień, zwróć pustą listę
+        if not orders:
+            return jsonify([]), 200
+
+        # Konwersja zamówień na JSON
+        orders_data = []
+        for order in orders:
+            orders_data.append({
+                "id": order.id,
+                "order_date": order.order_date.strftime('%Y-%m-%d %H:%M:%S'),
+                "total_price": order.total_price,
+                "status": order.status.value,
+                "street": order.street,
+                "city": order.city,
+                "zip_code": order.zip_code,
+                "items": [
+                    {
+                        "product_id": item.product_id,
+                        "product_name": Product.query.get(item.product_id).name,
+                        "quantity": item.quantity,
+                        "price": item.price
+                    }
+                    for item in order.items
+                ]
+            })
+        return jsonify(orders_data), 200
+
+    except Exception as e:
+        return jsonify({"error": "Wystąpił błąd podczas pobierania zamówień.", "details": str(e)}), 500

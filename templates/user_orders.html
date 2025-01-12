@@ -1,5 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-zamówienia
+<h1>Twoje zamówienia</h1>
+
+{% if orders %}
+    <table>
+        <thead>
+            <tr>
+                <th>Numer zamówienia</th>
+                <th>Data złożenia zamówienia</th>
+                <th>Status</th>
+                <th>Kwota</th>
+                <th>Adres</th>
+                <th>Miasto</th>
+                <th>Kod pocztowy</th>
+                <th>Produkty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order['id'] }}</td>
+                    <td>{{ order['order_date'] }}</td>
+                    <td>{{ order['status'] }}</td>
+                    <td>{{ order['total_price'] }} PLN</td>
+                    <td>{{ order['street'] }}</td>
+                    <td>{{ order['city'] }}</td>
+                    <td>{{ order['zip_code'] }}</td>
+                    <td>
+                        <ul>
+                            {% for item in order['items'] %}
+                                <li>{{ item['product_name'] }} - {{ item['quantity'] }} szt., {{ item['price'] }} PLN</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nie masz jeszcze żadnych zamówień.</p>
+{% endif %}
 {% endblock %}

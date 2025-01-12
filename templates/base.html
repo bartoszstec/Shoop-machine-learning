@@ -44,7 +44,7 @@
 						{% if session.get('user_login') %}
 							<li>Zalogowano jako: {{ session['user_login'] }}</li>
 							<!-- Elementy widoczne tylko dla zalogowanych użytkowników -->
-							<li><a href="{{ url_for('views.user_orders') }}">Moje zamówienia</a></li>
+							<li><a href="{{ url_for('views.view_user_orders') }}">Moje zamówienia</a></li>
 							<li><a href="{{ url_for('auth.logout') }}">Wyloguj się</a></li>
 							</li>
 						{% else %}

@@ -1,5 +1,12 @@
 from extensions import db
 from datetime import datetime
+from sqlalchemy import Enum
+import enum
+
+
+class StatusEnum(enum.Enum):
+    pending = "Pending"
+    completed = "Completed"
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -8,7 +15,7 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, nullable=False)  # ID użytkownika składającego zamówienie
     order_date = db.Column(db.DateTime, default=datetime.now)  # Data złożenia zamówienia
     total_price = db.Column(db.Float, nullable=False) # Cena za całe zamówienie
-    status = db.Column(db.String(50), default='Pending')  # Status zamówienia (np. Pending, Completed)
+    status = db.Column(Enum(StatusEnum), nullable=False, default=StatusEnum.pending)
     street = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(50), nullable=False)
     zip_code = db.Column(db.String(50), nullable=False)

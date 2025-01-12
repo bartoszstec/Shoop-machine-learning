@@ -21,7 +21,6 @@ def show_category(category_name):
        abort(404)  # Wywołuje handler błędu 404
 
     data = response.json()
-    print(data)
     return render_template('category.html', category_name=data["category"]["category_name"], products=data["products"])
 
 @views.route('/product_details', methods=['GET', 'POST'])
@@ -80,8 +79,25 @@ def add_comment_view():
     return redirect(url_for('views.productDetails', product_id=product_id))
 
 @views.route('/myorders')
-def user_orders():
+def view_user_orders():
     if 'user_id' not in session:
         flash('Zaloguj się, aby zobaczyć sowje zamówienia.', 'warning')
         return redirect(url_for('auth.login'))
-    return render_template('user_orders.html')
+    
+    user_id = session['user_id']
+
+    # Wywołanie API lub zapytanie do bazy danych w celu pobrania zamówień użytkownika
+    response = requests.get(f"{API_BASE_URL}/orders?user_id={user_id}")
+
+
+    print("Status Code:", response.status_code)
+    print("Response JSON:", response.json())
+    
+    if response.status_code != 200:
+        flash('Nie udało się pobrać zamówień. Spróbuj ponownie później.', 'error')
+        return redirect(url_for('views.index'))
+
+    # Zamówienia użytkownika
+    orders = response.json()
+    # Renderuj szablon z zamówieniami
+    return render_template('user_orders.html', orders=orders)

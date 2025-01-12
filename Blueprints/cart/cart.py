@@ -3,6 +3,7 @@ from models.product import Product
 from models.order import Order, OrderItem
 from extensions import db
 from datetime import datetime
+from models.order import StatusEnum
 
 cart = Blueprint('cart', __name__)
 
@@ -110,7 +111,7 @@ def finalization():
         user_id=session['user_id'],
         order_date=datetime.now(),
         total_price=total_price,
-        status='Pending',
+        status=StatusEnum.pending,
         street = street,
         city = city,
         zip_code = zip_code
