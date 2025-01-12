@@ -126,11 +126,8 @@ def get_product_details(product_id):
 
 @api.route('/orders', methods=['GET'])
 def get_user_orders():
-    """Pobiera zamówienia użytkownika na podstawie jego ID."""
-    user_id = request.args.get('user_id')
-    if not user_id:
-        return jsonify({"error": "Brak ID użytkownika"}), 400
-
+    
+    user_id = session['user_id']
     try:
         # Pobranie zamówień użytkownika
         orders = Order.query.filter_by(user_id=user_id).all()

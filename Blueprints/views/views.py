@@ -83,11 +83,9 @@ def view_user_orders():
     if 'user_id' not in session:
         flash('Zaloguj się, aby zobaczyć sowje zamówienia.', 'warning')
         return redirect(url_for('auth.login'))
-    
-    user_id = session['user_id']
 
     # Wywołanie API lub zapytanie do bazy danych w celu pobrania zamówień użytkownika
-    response = requests.get(f"{API_BASE_URL}/orders?user_id={user_id}")
+    response = requests.get(f"{API_BASE_URL}/orders", cookies=request.cookies)
 
 
     print("Status Code:", response.status_code)
