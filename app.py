@@ -5,6 +5,7 @@ from Blueprints.auth.auth import auth
 from Blueprints.cart.cart import cart
 from Blueprints.api.api import api
 from Blueprints.views.views import views
+from Blueprints.admin.admin import admin
 
 # Inicjalizacja aplikacji Flask i załadowanie pliku konfiguracyjnego
 app = Flask(__name__)
@@ -18,6 +19,7 @@ db.init_app(app)
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(cart, url_prefix='/cart')
 app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(views)
 
 @app.errorhandler(404)

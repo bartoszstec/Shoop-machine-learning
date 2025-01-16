@@ -30,7 +30,7 @@
                     <td>
                         <ul>
                             {% for item in order['items'] %}
-                                <li>{{ item['product_name'] }} - {{ item['quantity'] }} szt., {{ item['price'] }} PLN</li>
+                                <li>{{ item['product_name'] }} - {{ item['quantity'] }} szt. ({{ item['price'] }} PLN)</li>
                             {% endfor %}
                         </ul>
                     </td>

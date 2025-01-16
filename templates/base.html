@@ -25,7 +25,7 @@
 					<nav>
 						<ul>
 						{% if session.get('user_role')=="admin" %}
-						<li><a href="{{ url_for('auth.adminpage') }}">ADMIN PAGE</a></li>
+						<li><a href="{{ url_for('admin.adminpage') }}">ADMIN PAGE</a></li>
 						{% endif %}
 
 						<li>

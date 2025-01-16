@@ -5,6 +5,7 @@ import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.model_selection import GridSearchCV
 import joblib
 
 # Załaduj model językowy dla polskiego
@@ -70,28 +71,37 @@ X_test["opinia"] = X_test["opinia"].apply(lematyzuj_tekst)
 X_train["łączone_cechy"] = X_train["kategoria"] + " " + X_train["produkt"] + " " + X_train["opinia"]
 X_test["łączone_cechy"] = X_test["kategoria"] + " " + X_test["produkt"] + " " + X_test["opinia"]
 
-tfidf = TfidfVectorizer(max_features=5000)
+tfidf = TfidfVectorizer(max_features=10000)
 
 X_train_tfidf = tfidf.fit_transform(X_train["łączone_cechy"])
 X_test_tfidf = tfidf.transform(X_test["łączone_cechy"])
 
 
 # Inicjalizacja modelu RandomForestClassifier
-model = RandomForestClassifier(random_state=42, n_estimators=120, max_depth=10)
+model = RandomForestClassifier(random_state=42, n_estimators=200, max_depth=None, min_samples_split=5, min_samples_leaf=1, n_jobs=-1)
 
 # Trenowanie modelu na danych treningowych
 model.fit(X_train_tfidf, y_train.values.ravel())  # .ravel() konwertuje na wektor
 
 # Predykcja na danych testowych
-y_pred_ratings = model.predict(X_test_tfidf)
+rf_predictions = model.predict(X_test_tfidf)
 
 # Ocena modelu
 print("Macierz konfuzji:")
-print(confusion_matrix(y_test, y_pred_ratings))
+print(confusion_matrix(y_test, rf_predictions))
 
 print("\nRaport klasyfikacji:")
-print(classification_report(y_test, y_pred_ratings))
+print(classification_report(y_test, rf_predictions))
 
+# param_grid = {
+#     'n_estimators': [100, 200, 300],
+#     'max_depth': [10, 20, None],
+#     'min_samples_split': [2, 5, 10],
+#     'min_samples_leaf': [1, 2, 4],
+# }
+# grid_search = GridSearchCV(RandomForestClassifier(random_state=42), param_grid, cv=3, scoring='f1_macro')
+# grid_search.fit(X_train_tfidf, y_train.values.ravel())
+# print("Najlepsze parametry:", grid_search.best_params_)
 
 # Zapis modelu i wektoryzatora
 joblib.dump(model, "rf_classifier.pkl")

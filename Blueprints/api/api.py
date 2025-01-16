@@ -2,7 +2,7 @@ from flask import Blueprint, session, request, jsonify, render_template, flash, 
 from models.product import Product
 from models.category import Category
 from models.comment import Comment
-from models.order import Order, OrderItem
+from models.order import Order
 from sqlalchemy import or_
 import joblib
 import spacy
