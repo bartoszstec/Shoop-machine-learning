@@ -12,6 +12,7 @@
             :class="{'active-button': isLogin}"
             >
         </button>
+        <!-- <label for="button-change">Przycisk zmiany formularza</label> -->
         </div>
         <!-- Sekcja Logowania -->
         <div v-if="isLogin">
@@ -19,7 +20,7 @@
             <form action="{{ url_for('auth.login') }}" method="post">
                 <div class="row gtr-uniform gtr-50">
                     <div class="col-6 col-12-xsmall">
-                        <input type="text" name="username" placeholder="Login" autocomplete="off" required />
+                        <input type="email" name="email" placeholder="E-mail" autocomplete="off" required />
                     </div>
                     <div class="col-6" style="text-align: right;">
                         <input :type="changePasswordType" name="password" placeholder="Hasło" required />
@@ -40,7 +41,10 @@
             <form action="{{ url_for('auth.register') }}" method="post">
                 <div class="row gtr-uniform gtr-50">
                     <div class="col-6 col-12-xsmall">
-                        <input type="text" name="username" placeholder="Login" autocomplete="off" required />
+                        <input type="text" name="username" placeholder="Nazwa użytkownika" autocomplete="off" required />
+                    </div>
+                    <div class="col-6 col-12-xsmall">
+                        <input type="email" name="email" placeholder="email@example.com" autocomplete="off" required />
                     </div>
                     <div class="col-6 col-12-xsmall">
                         <input :type="changePasswordType" name="password" placeholder="Hasło" required />

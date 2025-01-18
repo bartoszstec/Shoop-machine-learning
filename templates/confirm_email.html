@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="special" style="margin-inline: 5em">
+    <h2>Potwierdzenie e-maila</h2>
+    <form action="{{ url_for('auth.confirm_email_page') }}" method="POST">
+        <label for="token">Podaj kod:</label>
+        <input type="text" name="token" id="token" required>
+        <button type="submit">Potwierdź</button>
+    </form>
+
+    <br>
+
+    <!-- Formularz do ponownego wysłania e-maila -->
+    <form action="{{ url_for('auth.resend_confirmation') }}" method="POST">
+        <label for="email">Nie otrzymałeś e-maila? Wpisz swój adres:</label>
+        <input type="email" name="email" id="email" required>
+        <button type="submit">Wyślij ponownie</button>
+    </form>
+</section>
+{% endblock %}

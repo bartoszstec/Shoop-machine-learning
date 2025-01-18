@@ -6,12 +6,15 @@ class Person(db.Model):
     __tablename__ = 'person'
     
     id = db.Column(db.Integer(), primary_key=True)
-    login = db.Column(db.String(255), unique=True, nullable=False)
+    login = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+    activated = db.Column(db.Boolean, default=False)
+    confirmation_token = db.Column(db.String(255), nullable=True)
 
-    def __init__(self, login, password, role="user"):
+    def __init__(self, login, email, password, role="user"):
         """
         Initializes a new Person object.
         
@@ -20,8 +23,14 @@ class Person(db.Model):
         :param role: The role assigned to the user (default is "user").
         """
         self.login = login
+        self.email = email
         self.set_password(password)  # Używamy set_password do hashowania hasła
         self.role = role
+
+    def set_confirmation_token(self, token):
+        """Zapisuje nowy token do bazy."""
+        self.confirmation_token = token
+        db.session.commit()
 
     def __repr__(self):
         return f"<Person {self.login}>"

@@ -1,8 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify, abort
-from extensions import db
-from models.product import Product
-from models.comment import Comment
-from models.category import Category
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, abort
 import requests
 
 views = Blueprint('views', __name__)
