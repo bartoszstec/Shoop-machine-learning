@@ -41,7 +41,7 @@ What makes Shoop different from other e-commerce platforms?<br>It features a cus
    source venv/bin/activate  # On macOS/Linux  
    pip install -r requirements.txt
 6. Create `.env` file in main directory and add configuration:
-   ```bash/env
+   ```env
    FLASK_DEBUG=1
    FLASK_APP=app.py
    DATABASE_URL=mysql+pymysql://root:@localhost/shoopdb?charset=utf8mb4
