@@ -3,7 +3,7 @@ Online store using text classification to evaluate customer opinions
 
 ## Description
 Shoop is a web application that simulates an e-commerce platform with all its core functionalities, such as browsing products, adding items to the cart, placing orders, simulating payments, leaving product reviews, creating accounts, and logging in.<br><br>
-What makes Shoop different from other e-commerce platforms?<br>It features a custom classification model that analyzes user reviews and assigns one of three sentiment ratings: positive, neutral, or negative making process of adding comment automatized. The classification model is specifically designed for the Polish language and achieves 85% accuracy on the test dataset.
+What makes Shoop different from other e-commerce platforms?<br>It features a custom classification model that analyzes user reviews and assigns one of three sentiment ratings: positive, neutral, or negative making process of adding comment automatized. The classification model is specifically designed for the **Polish language** and achieves **85% accuracy** on the test dataset.
 
 ## Features
 - User account registration
