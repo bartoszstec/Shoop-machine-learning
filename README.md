@@ -48,7 +48,7 @@ What makes Shoop different from other e-commerce platforms?<br>It features a cus
    SECRET_KEY=sekretnyklucz0192409218
    MAIL_USERNAME=your_gmail
    MAIL_PASSWORD=your_password
-ATTENTION: You have to have created account on gmail SMTP to use this application
+⚠️ Important: You need a Gmail SMTP account to use this application.
 
 ## Użycie
 1. Zarejestruj nowe konto
