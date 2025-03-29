@@ -50,7 +50,10 @@ What makes Shoop different from other e-commerce platforms?<br>It features a cus
    MAIL_PASSWORD=your_password
 ⚠️ Important: You need a Gmail SMTP account to use this application.
 
-## Użycie
-1. Zarejestruj nowe konto
-2. Dodaj zadanie
-...
+7. After configurating enviroment you have to create tables in database:
+   ```bash
+   python create_tables.py
+## Run application
+To run app activate virtual enviroment and type:
+   ```bash
+   python app.py
