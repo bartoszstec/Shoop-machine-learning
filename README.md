@@ -22,23 +22,32 @@ What makes Shoop different from other e-commerce platforms?<br>It features a cus
 - spacy, scikit-learn - machine learning libraries for text classification and sentiment analysis
 
 ## Instalation
-You need technologies listed below:
+### Required Technologies:
 - Xampp - server Apache and MySQL
-- Visual Studio Code - programing enviroment
-- Python 3.12.5 or newer - to launch application and dependies
+- Visual Studio Code - programming enviroment
+- Python 3.12.5 or newer - to run the application and dependencies
   <br><br>
-1. Download xampp and create new database called: shoopdb
-2. Clone repo: https://github.com/bartoszstec/Shoop-machine-learning/tree/automatic
-3. Open VSC then open powershell and create new virtual enviroment by typing: python -m venv venv
-4. Activate virtual enviroment (\venv\Scripts\activate) and install needed packages (pip install -r requirements.txt)
+### Steps to Install:
+1. Download xampp, then create new database named: `shoopdb`.
+2. Clone repository:
    ```bash
-6. Create .env file in main directory and add configuration:
-FLASK_DEBUG=1
-FLASK_APP=app.py
-DATABASE_URL=mysql+pymysql://root:@localhost/shoopdb?charset=utf8mb4
-SECRET_KEY=sekretnyklucz0192409218
-MAIL_USERNAME=your_gmail
-MAIL_PASSWORD=your_password
+   git clone https://github.com/bartoszstec/Shoop-machine-learning/tree/automatic
+3. Open Visual Studio Code, then open PowerShell and create a new virtual enviroment:
+   ```bash
+   python -m venv venv
+4. Activate virtual enviroment and install needed packages:
+   ```bash
+   venv\Scripts\activate  # On Windows  
+   source venv/bin/activate  # On macOS/Linux  
+   pip install -r requirements.txt
+6. Create `.env` file in main directory and add configuration:
+   ```bash/env
+   FLASK_DEBUG=1
+   FLASK_APP=app.py
+   DATABASE_URL=mysql+pymysql://root:@localhost/shoopdb?charset=utf8mb4
+   SECRET_KEY=sekretnyklucz0192409218
+   MAIL_USERNAME=your_gmail
+   MAIL_PASSWORD=your_password
 ATTENTION: You have to have created account on gmail SMTP to use this application
 
 ## Użycie
