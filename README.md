@@ -45,7 +45,7 @@ What makes Shoop different from other e-commerce platforms?<br>It features a cus
    FLASK_DEBUG=1
    FLASK_APP=app.py
    DATABASE_URL=mysql+pymysql://root:@localhost/shoopdb?charset=utf8mb4
-   SECRET_KEY=sekretnyklucz0192409218
+   SECRET_KEY=your_secret_key
    MAIL_USERNAME=your_gmail
    MAIL_PASSWORD=your_password
 ⚠️ Important: You need a Gmail SMTP account to use this application.
