@@ -31,7 +31,7 @@ You need technologies listed below:
 2. Clone repo: https://github.com/bartoszstec/Shoop-machine-learning/tree/automatic
 3. Open VSC then open powershell and create new virtual enviroment by typing: python -m venv venv
 4. Activate virtual enviroment (\venv\Scripts\activate) and install needed packages (pip install -r requirements.txt)
-   bash
+   ```bash
 6. Create .env file in main directory and add configuration:
 FLASK_DEBUG=1
 FLASK_APP=app.py
