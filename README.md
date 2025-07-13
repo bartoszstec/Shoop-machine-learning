@@ -1,5 +1,6 @@
 # Shoop-machine-learning
-Online store using text classification to evaluate customer opinions
+Shoop is a simulated e-commerce platform with a built-in system for automatic sentiment analysis of user comments. Using an ML model, customer reviews are classified as positive, neutral, or negative, allowing the administrator to better respond to consumer behavior.
+
 
 ## Description
 Shoop is a web application that simulates an e-commerce platform with all its core functionalities, such as browsing products, adding items to the cart, placing orders, simulating payments, leaving product reviews, creating accounts, and logging in.<br><br>
