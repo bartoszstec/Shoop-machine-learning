@@ -6,6 +6,10 @@ Shoop is a simulated e-commerce platform with a built-in system for automatic se
 Shoop is a web application that simulates an e-commerce platform with all its core functionalities, such as browsing products, adding items to the cart, placing orders, simulating payments, leaving product reviews, creating accounts, and logging in.<br><br>
 It features a custom classification model that analyzes user reviews and assigns one of three sentiment ratings: positive, neutral, or negative making process of adding comment automated. The model was trained on Polish reviews from Opineo.pl and reviews generated using LLM-ChatGPT. Used data is therefore hybrid. It classifies comments into three classes with 85% accuracy. The training process was performed using the scikit-learn and spaCy libraries. The data was manually prepared, cleaned and balanced.
 
+## Short demonstration video
+https://user-images.githubusercontent.com/yourgiflink.gif  
+📽️ [See video](./video/demo.mp4)
+
 ## Features
 - User account registration
 - Account activation via email confirmation
