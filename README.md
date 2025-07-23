@@ -39,11 +39,12 @@ It features a custom classification model that analyzes user reviews and assigns
 3. Open Visual Studio Code, then open PowerShell and create a new virtual environment:
    ```bash
    python -m venv venv
-4. Activate virtual environment and install needed packages:
+5. Activate virtual environment and install needed packages:
    ```bash
    venv\Scripts\activate  # On Windows  
    source venv/bin/activate  # On macOS/Linux  
    pip install -r requirements.txt
+   ```
 6. Create `.env` file in main directory and add configuration:
    ```env
    FLASK_DEBUG=1
