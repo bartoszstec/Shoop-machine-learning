@@ -36,10 +36,10 @@ It features a custom classification model that analyzes user reviews and assigns
 2. Clone repository:
    ```bash
    git clone https://github.com/bartoszstec/Shoop-machine-learning/tree/automatic
-3. Open Visual Studio Code, then open PowerShell and create a new virtual :
+3. Open Visual Studio Code, then open PowerShell and create a new virtual environment:
    ```bash
    python -m venv venv
-4. Activate virtual  and install needed packages:
+4. Activate virtual environment and install needed packages:
    ```bash
    venv\Scripts\activate  # On Windows  
    source venv/bin/activate  # On macOS/Linux  
