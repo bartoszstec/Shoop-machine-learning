@@ -10,3 +10,6 @@ venv/
 
 # Pliki kompilowane Pythona
 *.pyc
+
+# Pkiki środowiskowe
+*.idea
