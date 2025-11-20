@@ -35,7 +35,7 @@ It features a custom classification model that analyzes user reviews and assigns
 1. Download xampp, then create new database named: `shoopdb`.
 2. Clone repository:
    ```bash
-   git clone https://github.com/bartoszstec/Shoop-machine-learning/tree/automatic
+   git clone https://github.com/bartoszstec/Shoop-machine-learning/tree/main
 3. Open Visual Studio Code, then open PowerShell and create a new virtual environment:
    ```bash
    python -m venv venv
