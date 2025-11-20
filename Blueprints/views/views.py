@@ -44,33 +44,36 @@ def add_comment_view():
     product_id = request.form['product_id']
     user_name = request.form['user_name']
     content = request.form['content']
-    classification = request.form['classification']
     product_category = request.form['category']
     product_name = request.form['product']
-    
+
+    # classification = request.form['classification'] # wariant z wyborem własnej klasyfikacji w formularzu
+
+    # Wysłanie tekstu komentarza do modelu w celu klasyfikacji
+    predict_response = requests.post(
+        f"{API_BASE_URL}/predict_comment_class",
+        json={
+            "content": content,
+            "category": product_category,
+            "product": product_name
+        }
+    )
+    if predict_response.status_code == 200:
+        classification = predict_response.json().get("predicted_class")  # Pobranie klasyfikacji
+    else:
+        flash("Nie udało się sklasyfikować komentarza.", "warning")
+        return redirect(url_for('views.productDetails', product_id=product_id))
+
+    # Dodanie komentarza do bazy z przypisaną klasyfikacją
     response = requests.post(
         f"{API_BASE_URL}/products/{product_id}/addcomment",
         json={"user_name": user_name, "content": content, "classification": classification}
     )
+    # Sprawdzenie poprawności odpowiedzi
     if response.status_code == 201:
-        predict_response = requests.post(
-            f"{API_BASE_URL}/predict_comment_class",
-            json={
-                "content": content,
-                "category": product_category,
-                "product": product_name
-            }
-        )
-        if predict_response.status_code == 200:
-            prediction = predict_response.json().get("predicted_class", "Nieznana")
-            flash(f"Komentarz dodany! Model przewidział klasyfikację: {prediction}", "success")
-        else:
-            print("Błąd predykcji:", predict_response.json())  # Logowanie błędu
-            flash("Komentarz dodany, ale nie udało się uzyskać predykcji.", "warning")
+        flash(f"Komentarz dodany! Model przewidział klasyfikację: {classification}", "success")
     else:
         flash("Nie udało się dodać komentarza.", "error")
-
-    
 
     return redirect(url_for('views.productDetails', product_id=product_id))
 

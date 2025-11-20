@@ -29,16 +29,18 @@
         <input type="hidden" name="product" value="{{ product.name }}">
         <label>Dodaj komentarz:</label>
         <textarea id="comment-content" name="content" placeholder="Treść komentarza" required></textarea>
-        <label for="classification">Wybierz klasyfikację komentarza:</label>
-        <select id="classification" name="classification" required>
-            <option value="pozytywna">Pozytywna</option>
-            <option value="neutralna">Neutralna</option>
-            <option value="negatywna">Negatywna</option>
-        </select>
+<!--        Wersja systemu bez automatycznej klasyfikacji (wybór z formularza)-->
+<!--        <label for="classification">Wybierz klasyfikację komentarza:</label>-->
+<!--        <select id="classification" name="classification" required>-->
+<!--            <option value="pozytywna">Pozytywna</option>-->
+<!--            <option value="neutralna">Neutralna</option>-->
+<!--            <option value="negatywna">Negatywna</option>-->
+<!--        </select>-->
 
         <button type="submit">Dodaj komentarz</button>
     </form>
 </div>
+
 </section>
 
 <script>
