@@ -13,9 +13,9 @@ model = joblib.load("rf_classifier.pkl")
 tfidf = joblib.load("tfidf_vectorizer.pkl")
 
 # Przetwarzanie nowej opinii
-nowa_opinia = "OK, nie powalająca"
+nowa_opinia = "ok"
 nowa_opinia_przetworzona = lematyzuj_tekst(nowa_opinia)
-nowa_opinia_cechy = "AGD lodówka " + nowa_opinia_przetworzona
+nowa_opinia_cechy = "AGD żelazko" + nowa_opinia_przetworzona
 nowa_opinia_tfidf = tfidf.transform([nowa_opinia_cechy])
 
 # Predykcja klasy

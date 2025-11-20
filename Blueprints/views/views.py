@@ -75,6 +75,8 @@ def add_comment_view():
     else:
         flash("Nie udało się dodać komentarza.", "error")
 
+    
+
     return redirect(url_for('views.productDetails', product_id=product_id))
 
 @views.route('/myorders')

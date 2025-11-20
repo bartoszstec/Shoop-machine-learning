@@ -11,5 +11,5 @@ venv/
 # Pliki kompilowane Pythona
 *.pyc
 
-# Pliki środowiskowe
+# Pkiki środowiskowe
 *.idea
