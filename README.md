@@ -1,16 +1,13 @@
 # Shoop-machine-learning
 Shoop is a simulated e-commerce platform with a built-in system for automatic sentiment analysis of user comments. Using an ML model, customer reviews are classified as positive, neutral, or negative, allowing the administrator to better respond to consumer behavior.
 
----
 ## Description
 Shoop is a web application that simulates an e-commerce platform with all its core functionalities, such as browsing products, adding items to the cart, placing orders, simulating payments, leaving product reviews, creating accounts, and logging in.<br><br>
 It features a custom classification model that analyzes user reviews and assigns one of three sentiment ratings: positive, neutral, or negative making process of adding comment automated. The model was trained on Polish reviews from *Opineo.pl* and reviews generated using *LLM-ChatGPT*. Used data is therefore hybrid. It classifies comments into three classes with **85% accuracy**. The training process was performed using the scikit-learn and spaCy libraries. The data was manually prepared, cleaned and balanced.
 
----
 ## Short demonstration video of classification model feature
 📽️ [See Demo](https://drive.google.com/file/d/1FEYMIk2cYuBNileBWR4x1U1rq4PU-IPa/view?usp=drive_link)
 
----
 ## Features
 - User account registration
 - Account activation via email confirmation
@@ -21,7 +18,6 @@ It features a custom classification model that analyzes user reviews and assigns
 - Posting comments **wih automatic rating**
 - Admin functionalities: changing user roles, adding products to the store, viewing existing orders
 
----
 ## 🏗 System Architecture
 The diagram below presents the high-level architecture of the Shoop e-commerce platform:
 ![Container Diagram](DiagramKontenerów.png)
@@ -50,7 +46,6 @@ The frontend follows the standard Flask structure with:
 - initializing extensions (database, authentication, caching, etc.)
 - setting up blueprint registration
 
----
 ### Dataset used to create classification model
 
 I created the dataset myself by downloading real data from *Opineo.pl* and generating artificial opinions using the *ChatGPT* language model (based on real world data), which resulted in a **hybrid dataset**.
@@ -66,14 +61,12 @@ of the dataset.
 
 
 
----
 ## Technologies
 - Python 3.12.5 – main programming language
 - Flask - web framework for backend development
 - MySQL, ORM SQLAlchemy - database management and ORM for handling data models
 - spacy, scikit-learn - machine learning libraries for text classification and sentiment analysis
 
----
 ## Instalation
 ### Required Technologies:
 - Xampp - server Apache and MySQL
@@ -108,7 +101,6 @@ of the dataset.
    ```bash
    python create_tables.py
    
----
 ## Run application
 To run app activate virtual environment and type:
    ```bash
